@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { createApiClient, ApiError } from '@/lib/api';
-import { Check, Clock, BrainCircuit, Sparkles, Play, Lock, ArchiveRestore, Archive } from 'lucide-react';
+import { Check, Clock, BrainCircuit, Sparkles, Play, Lock, ArchiveRestore, Archive, Edit2, Trash2 } from 'lucide-react';
 import { Task } from '@neurodaily/shared';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { useRouter } from 'next/navigation';
+import { TaskForm } from './TaskForm';
 
 interface TaskCardProps {
   task: Task;
@@ -34,6 +35,7 @@ export function TaskCard({ task, onUpdate, isArchived = false }: TaskCardProps) 
   const [isGeneratingStep, setIsGeneratingStep] = useState(false);
   const [visualTitle, setVisualTitle] = useState(task.title);
   const [stepMethod, setStepMethod] = useState<'rules' | 'ai' | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const toggleStatus = async () => {
     setIsUpdating(true);
@@ -48,6 +50,22 @@ export function TaskCard({ task, onUpdate, isArchived = false }: TaskCardProps) 
     } catch (err) {
       console.error(err);
     } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('¿Estás seguro de que quieres eliminar esta tarea?')) return;
+    
+    setIsUpdating(true);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      const api = createApiClient(token);
+      await api.deleteTask(task.id);
+      onUpdate();
+    } catch (err) {
+      console.error(err);
       setIsUpdating(false);
     }
   };
@@ -76,6 +94,18 @@ export function TaskCard({ task, onUpdate, isArchived = false }: TaskCardProps) 
     }
   };
 
+  if (isEditing) {
+    return (
+      <div className={`p-6 rounded-xl border bg-card transition-all ${isArchived ? 'opacity-60 border-border/50' : 'border-border shadow-sm'}`}>
+        <TaskForm 
+          initialData={task} 
+          onSuccess={() => { setIsEditing(false); onUpdate(); }} 
+          onCancel={() => setIsEditing(false)} 
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`p-4 rounded-xl border bg-card transition-all flex gap-4 ${isArchived ? 'opacity-60 border-border/50' : 'border-border hover:shadow-sm'}`}>
       {/* Archive button */}
@@ -92,7 +122,15 @@ export function TaskCard({ task, onUpdate, isArchived = false }: TaskCardProps) 
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 pr-14 relative">
+          <div className="absolute -top-1 -right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
+            <button onClick={() => setIsEditing(true)} className="p-1.5 text-muted-foreground hover:text-primary rounded-md hover:bg-muted transition-colors" title="Editar tarea">
+              <Edit2 className="w-4 h-4" />
+            </button>
+            <button onClick={handleDelete} className="p-1.5 text-muted-foreground hover:text-red-500 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors" title="Eliminar tarea">
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
           {stepMethod === 'ai' && (
             <span className="text-[10px] uppercase tracking-wider text-amber-500 font-bold flex items-center gap-1">
               <Sparkles className="w-3 h-3" /> Generado por IA

@@ -7,7 +7,7 @@ import { createApiClient } from '@/lib/api';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 import { TaskCard } from '@/components/tasks/TaskCard';
-import { CreateTaskForm } from '@/components/tasks/CreateTaskForm';
+import { TaskForm } from '@/components/tasks/TaskForm';
 
 export default function TasksPage() {
   const { getToken } = useAuth();
@@ -47,11 +47,12 @@ export default function TasksPage() {
 
         {isCreating && (
           <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
-            <CreateTaskForm 
+            <TaskForm 
               onSuccess={() => {
                 setIsCreating(false);
                 refetch();
               }} 
+              onCancel={() => setIsCreating(false)}
             />
           </div>
         )}

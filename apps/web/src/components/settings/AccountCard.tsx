@@ -3,9 +3,12 @@
 import { useClerk, useUser } from '@clerk/nextjs';
 import { User, LogOut, Shield } from 'lucide-react';
 
+import { useRouter } from 'next/navigation';
+
 export function AccountCard() {
   const { openUserProfile, signOut } = useClerk();
   const { user } = useUser();
+  const router = useRouter();
 
   return (
     <div className="bg-white rounded-3xl p-6 md:p-8 flex flex-col h-full shadow-lg border border-gray-100 hover:border-[#97B9D1] transition-all group">
@@ -38,7 +41,10 @@ export function AccountCard() {
         </button>
         
         <button
-          onClick={() => signOut(() => { window.location.href = '/'; })}
+          onClick={async () => { 
+            await signOut(); 
+            router.push('/'); 
+          }}
           className="w-full flex items-center justify-center gap-2 bg-gray-50 hover:bg-red-50 text-red-600 px-6 py-3 rounded-full font-bold transition-colors"
         >
           <LogOut className="w-4 h-4" />

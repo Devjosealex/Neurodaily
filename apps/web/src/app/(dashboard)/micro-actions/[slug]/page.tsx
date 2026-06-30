@@ -1,15 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, CheckCircle2 } from 'lucide-react';
 import { BoxBreathing } from '@/components/micro-actions/BoxBreathing';
 import { NeckStretch } from '@/components/micro-actions/NeckStretch';
 import { MentalDump } from '@/components/micro-actions/MentalDump';
 
-export default function MicroActionPlayer({ params }: { params: { slug: string } }) {
+function MicroActionPlayerContent({ params }: { params: { slug: string } }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
 
   // Dynamic time based on slug
   const TOTAL_TIME = params.slug === 'estiramiento-cuello' ? 180 : 120;
@@ -54,8 +56,8 @@ export default function MicroActionPlayer({ params }: { params: { slug: string }
           <Button variant="outline" size="lg" className="rounded-full" onClick={() => router.push('/micro-actions')}>
             Volver a la Biblioteca
           </Button>
-          <Button size="lg" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => router.push('/dashboard')}>
-            Continuar mi día
+          <Button size="lg" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => router.push(returnTo || '/dashboard')}>
+            {returnTo ? 'Continuar mi tarea' : 'Continuar mi día'}
           </Button>
         </div>
       </div>
@@ -118,5 +120,13 @@ export default function MicroActionPlayer({ params }: { params: { slug: string }
         </Button>
       </div>
     </div>
+  );
+}
+
+export default function MicroActionPlayer({ params }: { params: { slug: string } }) {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center">Cargando...</div>}>
+      <MicroActionPlayerContent params={params} />
+    </Suspense>
   );
 }

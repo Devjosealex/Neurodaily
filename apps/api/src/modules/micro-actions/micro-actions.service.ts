@@ -28,7 +28,7 @@ export class MicroActionsService {
     const actions = await this.prisma.microAction.findMany({ where, orderBy: { sortOrder: 'asc' } });
 
     if (context) {
-      return actions.filter(a => {
+      return actions.filter((a: any) => {
         const contexts = a.recommendedContexts as string[];
         return contexts.includes(context);
       });

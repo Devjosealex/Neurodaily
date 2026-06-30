@@ -82,22 +82,22 @@ export class AdminService {
 
     // Populate titles
     const microActions = await this.prisma.microAction.findMany({
-      where: { id: { in: microActionsStats.map(s => s.microActionId) } },
+      where: { id: { in: microActionsStats.map((s: any) => s.microActionId) } },
       select: { id: true, title: true }
     });
 
-    const mappedStats = microActionsStats.map(stat => ({
+    const mappedStats = microActionsStats.map((stat: any) => ({
       microActionId: stat.microActionId,
-      title: microActions.find(m => m.id === stat.microActionId)?.title || 'Unknown',
+      title: microActions.find((m: any) => m.id === stat.microActionId)?.title || 'Unknown',
       avgRating: stat._avg.rating || 0,
       totalRatings: stat._count.id
-    })).filter(s => s.totalRatings > 0);
+    })).filter((s: any) => s.totalRatings > 0);
 
     // Sort by rating
-    mappedStats.sort((a, b) => b.avgRating - a.avgRating);
+    mappedStats.sort((a: any, b: any) => b.avgRating - a.avgRating);
 
     const topRated = mappedStats.slice(0, 5);
-    const bottomRated = [...mappedStats].sort((a, b) => a.avgRating - b.avgRating).slice(0, 5);
+    const bottomRated = [...mappedStats].sort((a: any, b: any) => a.avgRating - b.avgRating).slice(0, 5);
 
     return {
       activeMicroActions,

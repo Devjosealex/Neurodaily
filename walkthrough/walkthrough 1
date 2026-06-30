@@ -1,0 +1,90 @@
+# Sprint 0 — Walkthrough ✅
+
+## Resumen
+Sprint 0 completo. **27 archivos** creados. Estructura SDD lista.
+
+## Archivos Creados
+
+### Agentes (3 archivos)
+| Archivo | Contenido |
+|---|---|
+| [AGENTS.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/AGENTS.md) | Instrucciones principales del proyecto |
+| [CLAUDE.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/CLAUDE.md) | Versión resumida para compatibilidad Claude |
+| [agents.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/agents.md) | Definición del sistema multiagente |
+
+### Skills de Agentes (4 archivos)
+| Archivo | Contenido |
+|---|---|
+| [orchestrator.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/skills/orchestrator.md) | Reglas del Orquestador + formato confirmación |
+| [specs-agent.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/skills/specs-agent.md) | Formato de specs + reglas de completitud |
+| [implementation-agent.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/skills/implementation-agent.md) | Reglas de código + formato entrega |
+| [validator-agent.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/skills/validator-agent.md) | Checklist validación + criterios rechazo |
+
+### Workflows (3 archivos)
+| Archivo | Contenido |
+|---|---|
+| [start-sdd.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/workflows/start-sdd.md) | Flujo de inicio SDD |
+| [sprint-cycle.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/workflows/sprint-cycle.md) | Ciclo completo de sprint |
+| [validation-cycle.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/.agents/workflows/validation-cycle.md) | Proceso de validación |
+
+### Specs Producto (3 archivos)
+| Archivo | Contenido |
+|---|---|
+| [vision.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/product/vision.md) | Visión, problema, solución, diferenciadores |
+| [mvp-scope.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/product/mvp-scope.md) | Módulos MVP + límites Free/Pro + sprints |
+| [non-goals.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/product/non-goals.md) | Lo que NO se implementa |
+
+### Specs Features (8 archivos)
+| Archivo | Contenido |
+|---|---|
+| [onboarding.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/onboarding.md) | 6 pasos + campos + UX |
+| [checkin.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/checkin.md) | 3 niveles (rápido/normal/detallado) |
+| [tasks.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/tasks.md) | CRUD + carga cognitiva + detección vaguedad |
+| [micro-actions.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/micro-actions.md) | Biblioteca + temporizador + feedback |
+| [recommendations.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/recommendations.md) | 12 reglas + "¿Qué hago ahora?" + "No quiero pensar" |
+| [first-step.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/first-step.md) | 4 niveles + templates + IA Pro |
+| [subscriptions.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/subscriptions.md) | Stripe + límites + contadores + paywall UX |
+| [admin.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/features/admin.md) | CRUD microacciones + feedback + logs |
+
+### Specs Técnicas (4 archivos)
+| Archivo | Contenido |
+|---|---|
+| [schema.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/database/schema.md) | 10 tablas + índices + relaciones |
+| [endpoints.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/api/endpoints.md) | 28 endpoints con auth/plan/descripción |
+| [screens.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/ui/screens.md) | 20 pantallas + componentes compartidos |
+| [acceptance-criteria.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/specs/validation/acceptance-criteria.md) | Checklist general por módulo |
+
+### Documentación (2 archivos)
+| Archivo | Contenido |
+|---|---|
+| [architecture.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/docs/architecture.md) | Diagrama + stack + estructura directorios |
+| [sdd-methodology.md](file:///c:/Users/User/Documents/DESARROLLO%20DE%20SOFTWARE/proyecto-vibecoding/docs/sdd-methodology.md) | Flujo SDD + reglas + anti-patrones |
+
+---
+
+## Recomendaciones Incorporadas
+- ✅ Check-in de 3 niveles (3 campos rápido, 6 normal, 8 detallado)
+- ✅ `emotional_weight` removido de tareas
+- ✅ `clarity_level` → detección algorítmica
+- ✅ `user_preferences` → JSONB en `users`
+- ✅ Endpoints consolidados (28 total)
+- ✅ Streaks agregados al MVP
+- ✅ `usage_counters` → nueva tabla para límites Free
+- ✅ Tabla comparativa Free/Pro con límites específicos
+- ✅ Paywall amable (no frustrante)
+- ✅ Sin paywall en primera sesión
+- ✅ Respaldo neurocientífico documentado en vision.md
+
+---
+
+## Siguiente Paso: Sprint 1 — Base SaaS
+
+| Elemento | Detalle |
+|---|---|
+| Objetivo | Monorepo + Next.js + NestJS + Prisma + Clerk + layout base |
+| Specs | architecture.md, schema.md |
+| Archivos nuevos | ~30 archivos de código |
+| Riesgos | Configuración de Clerk, conexión Prisma-Railway |
+| No incluye | Features, microacciones, recomendador |
+
+**¿Confirmas que proceda con la implementación del Sprint 1?**

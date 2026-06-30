@@ -1,0 +1,33 @@
+# Sprint 2 — Walkthrough ✅
+
+## Resumen
+Sprint 2 completo. Implementado el flujo de Onboarding, sistema de Check-in y CRUD de Tareas, con integración Clerk-Base de datos y respeto a las restricciones del plan Free.
+
+## Módulos Implementados
+
+### 1. Usuarios & Sincronización (Backend)
+- En lugar de requerir webhooks expuestos, se implementó un mecanismo de **Sincronización en tiempo real en el `AuthGuard`**. Cuando un usuario inicia sesión, si su ID de Clerk no existe en la BD local, se crea automáticamente. Esto reduce drásticamente la fricción en el desarrollo local y asegura consistencia total.
+
+### 2. Onboarding
+- **Frontend:** Flujo multipaso elegante creado con `framer-motion`, que recopila los objetivos, contexto habitual y estilo de trabajo del usuario, y detecta automáticamente su zona horaria (`app/(auth)/onboarding/page.tsx`).
+- **Backend:** Endpoint `POST /onboarding/complete` que guarda las preferencias en formato JSONB dentro de la tabla de usuarios.
+
+### 3. Check-in Diario
+- **Frontend:** Pantalla interactiva en `app/(dashboard)/checkin/page.tsx` con 3 niveles de profundidad (Rápido, Normal, Detallado). El Nivel Detallado (3) se muestra con badge Pro.
+- **Backend:** Restricción de 1 check-in al día para usuarios Free en `CheckinsService`. Guarda niveles de energía, ansiedad y contexto.
+
+### 4. Tareas
+- **Frontend:** Vista principal en `app/(dashboard)/tasks/page.tsx`. Componentes reutilizables `TaskCard` y `CreateTaskForm`. Las tareas muestran la carga cognitiva mediante un chip de color (verde, amarillo, rojo).
+- **Backend:** CRUD completo. Detección automática de tareas vagas (≤ 4 palabras). Límite de 5 tareas activas para el plan Free verificado en `TasksService`.
+
+---
+
+## Siguiente Paso: Sprint 3 — Microacciones
+
+| Elemento | Detalle |
+|---|---|
+| Objetivo | Implementar el modelo de Microacciones (DB + UI), sesiones de enfoque (Focus Sessions) y recolección de feedback. |
+| Specs | micro-actions.md, endpoints.md |
+| Riesgos | Control del temporizador en el frontend, prevención de abusos en sesiones. |
+
+**¿Confirmas que proceda con la implementación del Sprint 3?**

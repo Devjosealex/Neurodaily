@@ -1,0 +1,46 @@
+{
+  "name": "@neurodaily/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "type-check": "tsc --noEmit",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:seed": "ts-node seed/seed.ts",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@clerk/backend": "^3.8.3",
+    "@nestjs/common": "^10.3.0",
+    "@nestjs/config": "^3.1.1",
+    "@nestjs/core": "^10.3.0",
+    "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/swagger": "^7.4.2",
+    "@neurodaily/shared": "*",
+    "@prisma/client": "^5.7.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "openai": "^4.104.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "stripe": "^14.25.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.3.0",
+    "@nestjs/schematics": "^10.1.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.6",
+    "prisma": "^5.7.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  }
+}

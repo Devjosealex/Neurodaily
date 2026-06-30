@@ -1,0 +1,31 @@
+# Walkthrough: Sprint 5 — Motor de Inteligencia Artificial (Groq)
+
+¡Hemos completado la integración del "Primer Paso Inteligente" usando Inteligencia Artificial!
+
+## Cambios Realizados
+
+### 1. Motor de IA Agnostic (Backend)
+- Se instaló la librería oficial de `openai`.
+- Se creó un `AiModule` global. En lugar de atarlo a los servidores costosos de OpenAI, lo hemos **apuntado a la API de Groq** (`https://api.groq.com/openai/v1`).
+- ¿La ventaja? Ahora usamos el modelo **Llama-3-8b** (rapidísimo y gratis), pero nuestro código está escrito 100% en el estándar de OpenAI. Si en 6 meses quieres usar GPT-4o, solo cambias la variable de entorno `GROQ_API_KEY` por la de OpenAI y borras la línea de `baseURL`. 
+
+### 2. Lógica de Negocio y Límites (Backend)
+- Se reescribió `first-step.service.ts` para que opere como un **Psicólogo Conductual**. El prompt obliga a la IA a responder en menos de 15 palabras, yendo directo a la primera acción física ("Abre el documento en blanco", "Coge una bolsa de basura").
+- **Límite Freemium (La regla de 3 usos)**: Si el usuario es Free (`plan: 'free'`), el backend consulta la tabla `UsageCounter` en Prisma. Si tiene menos de 3 usos de IA, se lo permite y suma 1 al contador.
+- Si llega a 3, el backend bloquea la petición con un error HTTP 403 (Forbidden).
+
+### 3. Experiencia de Usuario (Frontend)
+- El componente `TaskCard` ahora tiene un botón dorado interactivo **"💡 Pedir Primer Paso"**.
+- Al hacer clic, muestra un *LoadingSpinner*.
+- Cuando llega la respuesta en milisegundos, ocurre la magia visual: **El título intimidante original es reemplazado en vivo por la sugerencia inofensiva de la IA**, marcada con un badge especial de "Generado por IA ✨".
+- Si el usuario se gasta sus 3 tokens gratuitos, la aplicación intercepta el error 403 y le lanza un aviso confirmatorio: *"Has agotado tus usos gratuitos de la IA. ¿Quieres mejorar a Pro para usos ilimitados?"*, dirigiéndolo directamente a la página de Facturación que hicimos en el Sprint 4.
+
+## Pasos para que Pruebes Esto:
+
+1. Ve a [console.groq.com](https://console.groq.com/keys) y crea una cuenta gratuita.
+2. Genera una API Key.
+3. En tu archivo `.env` local, agrega:
+   `GROQ_API_KEY=gsk_tullaveaqui...`
+4. Reinicia tu servidor de NestJS.
+5. Ve a tu Dashboard, crea una tarea como "Terminar mi tesis doctoral" o "Limpiar el garaje que llevo 3 años ignorando".
+6. Haz clic en "💡 Pedir Primer Paso" y mira la magia suceder. Al 4to intento, verás el muro de pago.

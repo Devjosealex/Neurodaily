@@ -1,0 +1,89 @@
+[
+  {
+    "slug": "respiracion-caja",
+    "title": "Respiración de Caja (Box Breathing)",
+    "category": "breathing",
+    "goal": "Reducir ansiedad inmediata",
+    "description": "Técnica de respiración 4-4-4-4 utilizada por los Navy SEALs para calmar el sistema nervioso.",
+    "durationSeconds": 120,
+    "difficulty": "easy",
+    "energyRequired": "low",
+    "recommendedContexts": ["work", "study", "home"],
+    "anxietyLevels": [3, 4, 5],
+    "cognitiveLoadMatch": null,
+    "instructions": [
+      "Inhala por la nariz durante 4 segundos.",
+      "Mantén el aire en tus pulmones por 4 segundos.",
+      "Exhala suavemente por la boca durante 4 segundos.",
+      "Mantén los pulmones vacíos por 4 segundos.",
+      "Repite el ciclo."
+    ],
+    "contraindications": ["Problemas respiratorios severos"],
+    "isPremium": false
+  },
+  {
+    "slug": "estiramiento-cuello",
+    "title": "Estiramiento de Cuello 360",
+    "category": "stretch",
+    "goal": "Liberar tensión física",
+    "description": "Movimientos suaves circulares para aliviar la tensión acumulada por mirar la pantalla.",
+    "durationSeconds": 60,
+    "difficulty": "easy",
+    "energyRequired": "low",
+    "recommendedContexts": ["work", "study"],
+    "anxietyLevels": [2, 3, 4],
+    "cognitiveLoadMatch": null,
+    "instructions": [
+      "Siéntate derecho y relaja los hombros.",
+      "Lleva la barbilla hacia el pecho lentamente.",
+      "Gira la cabeza hacia la derecha suavemente.",
+      "Lleva la cabeza hacia atrás.",
+      "Gira hacia la izquierda y vuelve al centro.",
+      "Haz 3 vueltas en cada dirección."
+    ],
+    "contraindications": ["Lesiones cervicales recientes"],
+    "isPremium": false
+  },
+  {
+    "slug": "caminata-consciente",
+    "title": "Caminata Consciente (Mindful Walk)",
+    "category": "mindfulness",
+    "goal": "Despejar la mente",
+    "description": "Un breve paseo enfocando la atención en las sensaciones físicas.",
+    "durationSeconds": 300,
+    "difficulty": "easy",
+    "energyRequired": "medium",
+    "recommendedContexts": ["home", "work"],
+    "anxietyLevels": [2, 3, 4],
+    "cognitiveLoadMatch": "high",
+    "instructions": [
+      "Levántate y camina lentamente.",
+      "Presta atención a cómo la planta de tus pies toca el suelo.",
+      "Observa el movimiento de tus piernas y brazos.",
+      "Si tu mente divaga, devuelve la atención suavemente a tus pies."
+    ],
+    "contraindications": [],
+    "isPremium": true
+  },
+  {
+    "slug": "braindump",
+    "title": "Vaciado Mental (Brain Dump)",
+    "category": "cognitive",
+    "goal": "Reducir la carga cognitiva",
+    "description": "Escribir todo lo que tienes en la cabeza sin filtro para liberar RAM mental.",
+    "durationSeconds": 180,
+    "difficulty": "medium",
+    "energyRequired": "medium",
+    "recommendedContexts": ["work", "study", "personal"],
+    "anxietyLevels": [3, 4],
+    "cognitiveLoadMatch": "high",
+    "instructions": [
+      "Toma un papel o abre un documento en blanco.",
+      "Escribe absolutamente todo lo que esté rondando por tu cabeza.",
+      "No te preocupes por el orden, la ortografía o si tiene sentido.",
+      "Sigue escribiendo hasta que sientas que no queda nada urgente."
+    ],
+    "contraindications": [],
+    "isPremium": false
+  }
+]

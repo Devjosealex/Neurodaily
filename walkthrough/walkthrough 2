@@ -1,0 +1,43 @@
+# Sprint 1 — Walkthrough ✅
+
+## Resumen
+Sprint 1 completo. Infraestructura base SaaS (Monorepo) configurada con **31 archivos**.
+
+## Estructura Implementada
+
+### Monorepo Root
+- Configuración de `npm workspaces` para `apps/web`, `apps/api`, y `packages/shared`.
+- Archivos `.env.example`, `.gitignore`, y `tsconfig.base.json`.
+
+### Shared Package (`packages/shared`)
+- Interfaces compartidas en `src/types/index.ts` (Frontend y Backend).
+- Constantes de límites de planes en `src/constants/index.ts`.
+- Esquemas de validación Zod en `src/validators/index.ts`.
+
+### Frontend (`apps/web` - Next.js)
+- Instalación de Next.js, React Query, Zustand, Tailwind, shadcn/ui y Clerk.
+- Middleware de Clerk para protección de rutas (`middleware.ts`).
+- Cliente API (`lib/api.ts`) que adjunta automáticamente el token JWT.
+- Layouts de la app y del dashboard (`DashboardSidebar`, `DashboardHeader`).
+- Pantallas iniciales: Landing (`page.tsx`), Auth (`sign-in`, `sign-up`), y Dashboard base.
+
+### Backend (`apps/api` - NestJS)
+- Instalación de NestJS, Prisma, Stripe, y OpenAI.
+- Esquema completo de base de datos Prisma (`schema.prisma`) con las 10 tablas definidas en la especificación.
+- `AuthGuard` global para validar tokens JWT de Clerk.
+- Filtro de excepciones global (`HttpExceptionFilter`) para respuestas de error estructuradas.
+
+### Seed
+- Archivo `micro-actions.json` con 4 microacciones iniciales.
+
+---
+
+## Siguiente Paso: Sprint 2 — Onboarding, Tareas y Check-in
+
+| Elemento | Detalle |
+|---|---|
+| Objetivo | Implementar el flujo de Onboarding, CRUD de Tareas y el sistema de Check-in diario de 3 niveles. |
+| Specs | onboarding.md, tasks.md, checkin.md, endpoints.md |
+| Riesgos | Lógica de enrutamiento Post-Onboarding, integración de Clerk con la creación del usuario en DB. |
+
+**¿Confirmas que proceda con la implementación del Sprint 2?**

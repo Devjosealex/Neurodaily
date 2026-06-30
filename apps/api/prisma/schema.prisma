@@ -1,0 +1,236 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================
+// USERS
+// ========================
+model User {
+  id                   String    @id @default(uuid())
+  clerkUserId          String    @unique @map("clerk_user_id")
+  email                String    @unique
+  name                 String?
+  role                 String    @default("user") // user, admin
+  timezone             String    @default("UTC")
+  preferences          Json      @default("{}")
+  streakCount          Int       @default(0) @map("streak_count")
+  streakLastDate       DateTime? @map("streak_last_date") @db.Date
+  onboardingCompleted  Boolean   @default(false) @map("onboarding_completed")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  checkins             DailyCheckin[]
+  tasks                Task[]
+  focusSessions        FocusSession[]
+  recommendationLogs   RecommendationLog[]
+  firstStepLogs        FirstStepLog[]
+  microActionFeedbacks UserMicroActionFeedback[]
+  usageCounters        UsageCounter[]
+  subscription         Subscription?
+
+  @@map("users")
+}
+
+// ========================
+// DAILY CHECKINS
+// ========================
+model DailyCheckin {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  energyLevel    Int      @map("energy_level")
+  anxietyLevel   Int      @map("anxiety_level")
+  currentContext String   @map("current_context")
+  sleepQuality   Int?     @map("sleep_quality")
+  availableTime  Int?     @map("available_time")
+  canMove        Boolean? @map("can_move")
+  mentalClarity  Int?     @map("mental_clarity")
+  currentState   String?  @map("current_state")
+  checkinLevel   Int      @default(1) @map("checkin_level")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("daily_checkins")
+}
+
+// ========================
+// TASKS
+// ========================
+model Task {
+  id               String    @id @default(uuid())
+  userId           String    @map("user_id")
+  title            String
+  description      String?
+  category         String
+  cognitiveLoad    String    @map("cognitive_load") // low, medium, high
+  estimatedMinutes Int?      @map("estimated_minutes")
+  dueDate          DateTime? @map("due_date")
+  startTime        String?   @map("start_time") // e.g. "09:00"
+  orderIndex       Int       @default(0) @map("order_index")
+  status           String    @default("pending") // pending, in_progress, completed, postponed
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  focusSessions FocusSession[]
+  firstStepLogs FirstStepLog[]
+
+  @@index([userId, status])
+  @@map("tasks")
+}
+
+// ========================
+// MICRO ACTIONS
+// ========================
+model MicroAction {
+  id                   String   @id @default(uuid())
+  title                String
+  slug                 String   @unique
+  category             String
+  goal                 String
+  description          String?
+  durationSeconds      Int      @map("duration_seconds")
+  difficulty           String   // easy, medium, hard
+  energyRequired       String   @map("energy_required") // low, medium, high
+  recommendedContexts  Json     @default("[]") @map("recommended_contexts")
+  anxietyLevels        Json     @default("[]") @map("anxiety_levels")
+  cognitiveLoadMatch   String?  @map("cognitive_load_match")
+  instructions         Json     @default("[]")
+  contraindications    Json     @default("[]")
+  isActive             Boolean  @default(true) @map("is_active")
+  isPremium            Boolean  @default(false) @map("is_premium")
+  createdByAdmin       Boolean  @default(true) @map("created_by_admin")
+  sortOrder            Int      @default(0) @map("sort_order")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  focusSessions FocusSession[]
+  feedbacks     UserMicroActionFeedback[]
+
+  @@index([category, isActive])
+  @@map("micro_actions")
+}
+
+// ========================
+// USER MICRO ACTION FEEDBACK
+// ========================
+model UserMicroActionFeedback {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  microActionId String   @map("micro_action_id")
+  rating        Int
+  feedback      String?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  microAction MicroAction @relation(fields: [microActionId], references: [id])
+
+  @@map("user_micro_action_feedback")
+}
+
+// ========================
+// FOCUS SESSIONS
+// ========================
+model FocusSession {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  taskId        String?   @map("task_id")
+  microActionId String?   @map("micro_action_id")
+  startedAt     DateTime  @map("started_at")
+  endedAt       DateTime? @map("ended_at")
+  completed     Boolean   @default(false)
+  moodAfter     Int?      @map("mood_after")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task        Task?        @relation(fields: [taskId], references: [id])
+  microAction MicroAction? @relation(fields: [microActionId], references: [id])
+
+  @@map("focus_sessions")
+}
+
+// ========================
+// SUBSCRIPTIONS
+// ========================
+model Subscription {
+  id                   String    @id @default(uuid())
+  userId               String    @unique @map("user_id")
+  stripeCustomerId     String?   @unique @map("stripe_customer_id")
+  stripeSubscriptionId String?   @unique @map("stripe_subscription_id")
+  plan                 String    @default("free") // free, pro
+  status               String    @default("active") // active, canceled, past_due, trialing
+  currentPeriodEnd     DateTime? @map("current_period_end")
+  cancelAtPeriodEnd    Boolean   @default(false) @map("cancel_at_period_end")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+// ========================
+// RECOMMENDATION LOGS
+// ========================
+model RecommendationLog {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  inputContext    Json     @map("input_context")
+  recommendedType String   @map("recommended_type")
+  recommendedId   String?  @map("recommended_id")
+  reason          String
+  accepted        Boolean?
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("recommendation_logs")
+}
+
+// ========================
+// FIRST STEP LOGS
+// ========================
+model FirstStepLog {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  taskId           String?  @map("task_id")
+  originalText     String   @map("original_text")
+  generatedStep    String   @map("generated_step")
+  difficultyLevel  Int      @map("difficulty_level")
+  generationMethod String   @map("generation_method") // rules, ai
+  accepted         Boolean?
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task? @relation(fields: [taskId], references: [id])
+
+  @@map("first_step_logs")
+}
+
+// ========================
+// USAGE COUNTERS
+// ========================
+model UsageCounter {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  counterType String   @map("counter_type")
+  counterDate DateTime @map("counter_date") @db.Date
+  count       Int      @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, counterType, counterDate])
+  @@index([userId, counterDate])
+  @@map("usage_counters")
+}

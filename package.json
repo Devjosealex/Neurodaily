@@ -1,0 +1,23 @@
+{
+  "name": "neurodaily",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/api",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "dotenv -e .env -- npm run dev --workspace=apps/web",
+    "dev:api": "dotenv -e .env -- npm run dev --workspace=apps/api",
+    "build": "npm run build --workspace=packages/shared && npm run build --workspace=apps/web && npm run build --workspace=apps/api",
+    "lint": "npm run lint --workspaces",
+    "type-check": "npm run type-check --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv-cli": "^11.0.0",
+    "typescript": "^5.3.3"
+  }
+}

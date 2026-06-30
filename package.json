@@ -8,6 +8,7 @@
     "packages/shared"
   ],
   "scripts": {
+    "postinstall": "npm run prisma:generate --workspace=apps/api",
     "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
     "dev:web": "dotenv -e .env -- npm run dev --workspace=apps/web",
     "dev:api": "dotenv -e .env -- npm run dev --workspace=apps/api",
